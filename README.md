@@ -17,7 +17,6 @@ When a disaster strikes, emergency responders and aid organisations must make ra
 ## 3. Research Questions
 
 1. Which risk factors — hazard intensity, exposure, housing, poverty, or vulnerability — are the strongest predictors of earthquake severity?
-2. How accurately can a classification model predict the severity category of a VDC based on its risk profile?
 3. Which classification algorithm performs best on this data — Logistic Regression, KNN, or SVM?
 4. Are certain regions of Nepal disproportionately represented in the highest severity categories?
 5. What does the distribution of severity categories tell us about inequality in disaster risk across Nepal?
