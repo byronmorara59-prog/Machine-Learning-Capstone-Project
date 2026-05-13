@@ -19,10 +19,15 @@ When a disaster strikes, emergency responders and aid organisations must make ra
 3. ML Workflow
 
 i) Data Cleaning — Handle the single missing row, check for outliers in the scoring columns, and standardise column names for easier use throughout the project.
+
 ii) Exploratory Data Analysis — Understand the distribution of each feature, identify class imbalance across severity categories, and explore regional patterns using visualisations such as histograms, box plots, count plots and a correlation heatmap.
+
 iii) Class Imbalance Treatment — Apply SMOTE (Synthetic Minority Oversampling Technique) to balance the severity categories before training. The dataset is heavily skewed — Highest severity locations make up less than 0.5% of all records — so without this step the model would simply predict the majority class every time.
+
 iv) Train / Test Split — Split the balanced data into 80% for training and 20% for testing, using stratification to ensure all severity classes appear proportionally in both sets.
+
 v) Feature Scaling — Apply StandardScaler to bring all features onto the same scale, which is required for KNN and SVM since both rely on distance calculations.
+
 vi) Model Training — Train three classification models on the balanced, scaled data:
 
 - Logistic Regression — linear baseline model
@@ -31,6 +36,7 @@ vi) Model Training — Train three classification models on the balanced, scaled
 
 
 vii) Model Evaluation — Evaluate each model using Accuracy, Precision, Recall, F1 Score, ROC-AUC, Confusion Matrix and Classification Report. Recall is the priority metric — misclassifying a high-severity location as low-risk means aid may never reach it.
+
 viii) Model Comparison — Compare all three models side by side in a summary table and ROC curve plot to identify the best performing model.
 
 
