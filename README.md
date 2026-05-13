@@ -69,14 +69,25 @@ viii) Model Comparison — Compare all three models side by side in a summary ta
 
 ## 6. Columns
 i) P_CODE - Unique location identifier
+
 ii) VDC_NAME - Village Development Committee name
+
 iii) DISTRICT - District the VDC belongs to
+
 iv) REGION - One of Nepal's five geographic regions
+
 v) Hazard (Intensity) - Earthquake ground shaking intensity score
+
 vi) Exposure - Population and asset exposure score
+
 vii) Housing - Housing fragility score
+
 viii) Poverty - Poverty index score
+
 ix) Vulnerability - Combined vulnerability score
+
 x) Severity - Raw composite severity score
+
 xi) Severity Normalized - Severity scaled to 0–10
+
 xii) Severity category - Target variable > Lowest, Low, Medium-Low, Medium-High, High, Highest
