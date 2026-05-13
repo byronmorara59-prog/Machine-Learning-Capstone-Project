@@ -16,30 +16,43 @@ When a disaster strikes, emergency responders and aid organisations must make ra
 
 ## 3. Research Questions
 
-1. Which risk factors — hazard intensity, exposure, housing, poverty, or vulnerability — are the strongest predictors of earthquake severity?
-3. Which classification algorithm performs best on this data — Logistic Regression, KNN, or SVM?
-4. Are certain regions of Nepal disproportionately represented in the highest severity categories?
-5. What does the distribution of severity categories tell us about inequality in disaster risk across Nepal?
+3. ML Workflow
+
+i) Data Cleaning — Handle the single missing row, check for outliers in the scoring columns, and standardise column names for easier use throughout the project.
+ii) Exploratory Data Analysis — Understand the distribution of each feature, identify class imbalance across severity categories, and explore regional patterns using visualisations such as histograms, box plots, count plots and a correlation heatmap.
+iii) Class Imbalance Treatment — Apply SMOTE (Synthetic Minority Oversampling Technique) to balance the severity categories before training. The dataset is heavily skewed — Highest severity locations make up less than 0.5% of all records — so without this step the model would simply predict the majority class every time.
+iv) Train / Test Split — Split the balanced data into 80% for training and 20% for testing, using stratification to ensure all severity classes appear proportionally in both sets.
+v) Feature Scaling — Apply StandardScaler to bring all features onto the same scale, which is required for KNN and SVM since both rely on distance calculations.
+vi) Model Training — Train three classification models on the balanced, scaled data:
+
+- Logistic Regression — linear baseline model
+- K-Nearest Neighbors (KNN) — distance-based model with the Elbow Method used to find the optimal k
+- Support Vector Machine (SVM) — RBF kernel to handle non-linear boundaries between severity classes
+
+
+vii) Model Evaluation — Evaluate each model using Accuracy, Precision, Recall, F1 Score, ROC-AUC, Confusion Matrix and Classification Report. Recall is the priority metric — misclassifying a high-severity location as low-risk means aid may never reach it.
+viii) Model Comparison — Compare all three models side by side in a summary table and ROC curve plot to identify the best performing model.
 
 
 
-## 4. Tools and Concepts
+## 4. Tools
 
-### Python (pandas, numpy, matplotlib, seaborn)
-- Data loading, exploration and cleaning
-- Handling missing values and outliers
-- Exploratory Data Analysis — distributions, correlations, class imbalance
-- Visualisations
 
-### Scikit-learn — Machine Learning
-- **Data Preprocessing** — feature scaling using StandardScaler to prepare data for KNN and SVM
-- **Train/Test Split** — splitting data to evaluate real-world model performance
-- **Classification Models:**
-  - *Logistic Regression* — linear baseline model using `class_weight='balanced'`
-  - *K-Nearest Neighbors (KNN)* — distance-based model with the Elbow Method to find the optimal k
-  - *Support Vector Machine (SVM)* — RBF kernel to handle non-linear boundaries between severity classes
-- **Class Imbalance Handling** — SMOTE (Synthetic Minority Oversampling Technique) to address the unequal distribution across severity categories
-- **Model Evaluation** — Accuracy, Precision, Recall, F1 Score, ROC-AUC, Confusion Matrix, Classification Report
+### Python
+- pandas — data loading, cleaning and manipulation
+- numpy — numerical operations
+- matplotlib & seaborn — visualisations including heatmaps, histograms, box plots and ROC curves
+
+### Scikit-learn
+- train_test_split — splitting data into training and testing sets
+- StandardScaler — feature scaling
+- LogisticRegression — baseline classification model
+- KNeighborsClassifier — distance-based classification
+- SVC — Support Vector Machine classifier
+- classification_report, confusion_matrix, roc_auc_score, roc_curve — model evaluation
+
+### Imbalanced-learn
+- SMOTE — oversampling minority severity classes to address class imbalance
 
 
 
@@ -54,10 +67,16 @@ When a disaster strikes, emergency responders and aid organisations must make ra
 
 
 
-## 6. Expected Insights
-
-1. Which combination of risk factors is most predictive of high earthquake severity?
-2. How well can a machine learning model classify severity categories on unseen VDCs?
-3. Which model generalises best — and is any model overfitting?
-4. Are the highest-severity locations concentrated in particular regions or districts?
-5. What does the severity distribution reveal about where Nepal is most vulnerable to future earthquakes?
+## 6. Columns
+i) P_CODE - Unique location identifier
+ii) VDC_NAME - Village Development Committee name
+iii) DISTRICT - District the VDC belongs to
+iv) REGION - One of Nepal's five geographic regions
+v) Hazard (Intensity) - Earthquake ground shaking intensity score
+vi) Exposure - Population and asset exposure score
+vii) Housing - Housing fragility score
+viii) Poverty - Poverty index score
+ix) Vulnerability - Combined vulnerability score
+x) Severity - Raw composite severity score
+xi) Severity Normalized - Severity scaled to 0–10
+xii) Severity category - Target variable > Lowest, Low, Medium-Low, Medium-High, High, Highest
