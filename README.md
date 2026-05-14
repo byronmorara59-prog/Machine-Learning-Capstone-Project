@@ -1,47 +1,76 @@
-# Predicting Earthquake Severity in Nepal
+# Mobile Money Fraud Detection
 
 
 
 ## 1. Project Description
 
-The 2015 Nepal earthquake killed nearly 9,000 people and displaced over 3 million. The damage was not uniform, some villages were completely destroyed while others nearby survived relatively intact. Understanding what combination of factors; hazard intensity, housing quality, poverty levels, exposure, and vulnerability, drives that difference is critical for disaster preparedness and resource allocation. This project uses the Nepal Earthquake Severity Index dataset, which covers 3,985 Village Development Committees (VDCs) across Nepal's five regions. The goal is to build and compare machine learning classification models that can predict the severity category of a location based on its risk profile and identify which factors matter most.
+Mobile money has transformed financial access across Africa. In Kenya alone, M-Pesa processes billions of shillings in transactions every day, giving millions of people access to financial services who would otherwise have none. But as mobile money has grown, so has financial fraud, fraudulent agents exploit the system by taking control of customer accounts and attempting to drain funds through transfers and cash-outs.
+Detecting fraud in real time is a critical challenge. Transactions happen in seconds, the volume is enormous, and fraudulent transactions make up a tiny fraction of all activity, making them extremely difficult to spot without a data-driven approach.
+This project uses the PaySim synthetic dataset, which simulates one month of mobile money transactions modelled on real transaction logs from a mobile financial service operating across 14 African countries. The goal is to build and compare machine learning classification models that can reliably identify fraudulent transactions, and determine which algorithm performs best under the extreme class imbalance that defines this problem.
 
 
 
 ## 2. Problem Statement
 
-When a disaster strikes, emergency responders and aid organisations must make rapid decisions about where to send resources first. These decisions are often made with incomplete information and under extreme time pressure. A data-driven model that can classify the severity of impact for a given location based on measurable risk factors captured before or during a disaster would significantly improve the speed and accuracy of these decisions. This project asks: can we use the combination of hazard intensity, population exposure, housing fragility, poverty, and vulnerability to reliably predict how severely a community will be affected? If yes, which factors are the strongest predictors, and do they differ across Nepal's regions?
+Fraud in mobile money systems causes direct financial harm to individuals and erodes trust in the platforms that millions of people depend on. The core challenge is that fraudulent transactions are rare, less than 0.2% of all transactions in this dataset are fraudulent. A model that simply predicts every transaction as legitimate would achieve over 99% accuracy while catching zero fraud cases. This is why standard accuracy is meaningless here, and why handling class imbalance is the central technical challenge.
+
+
+## 3. Dataset
+- Source: PaySim Synthetic Financial Dataset — Kaggle
+
+- Size: ~6.3 million transactions, 11 columns (30-day simulation — 1 step = 1 hour)
+
+
+Columns
+ 
+ - step > Hour of the simulation (1–744, representing 30 days)
+
+ - type > Transaction type — CASH-IN, CASH-OUT, DEBIT, PAYMENT, TRANSFER
+
+ - amount > Transaction amount in local currency
+
+ - nameOrig > Sender account ID
+
+ - oldbalanceOrg > Sender balance before the transaction
+
+ - newbalanceOrig > Sender balance after the transaction
+
+ - nameDest > Receiver account ID
+
+ - oldbalanceDest > Receiver balance before the transaction
+
+ - newbalanceDest > Receiver balance after the transaction
+
+ - isFraud > Target — 1 = fraudulent, 0 = legitimate
+
+ - isFlagged > FraudSystem flag for large illegal transfers, for reference only
 
 
 
-## 3. Research Questions
+## 4. ML WorkFow
+i) Data Cleaning
 
-3. ML Workflow
+ii) Exploratory Data Analysis
 
-i) Data Cleaning — Handle the single missing row, check for outliers in the scoring columns, and standardise column names for easier use throughout the project.
+iii) Feature Engineering
 
-ii) Exploratory Data Analysis — Understand the distribution of each feature, identify class imbalance across severity categories, and explore regional patterns using visualisations such as histograms, box plots, count plots and a correlation heatmap.
+iv) Encoding
 
-iii) Class Imbalance Treatment — Apply SMOTE (Synthetic Minority Oversampling Technique) to balance the severity categories before training. The dataset is heavily skewed — Highest severity locations make up less than 0.5% of all records — so without this step the model would simply predict the majority class every time.
+v) Class Imbalance Treatment
 
-iv) Train / Test Split — Split the balanced data into 80% for training and 20% for testing, using stratification to ensure all severity classes appear proportionally in both sets.
+vi) Train / Test Split
 
-v) Feature Scaling — Apply StandardScaler to bring all features onto the same scale, which is required for KNN and SVM since both rely on distance calculations.
+vii) Feature Scaling
 
-vi) Model Training — Train three classification models on the balanced, scaled data:
+viii) Model Training
 
-- Logistic Regression — linear baseline model
-- K-Nearest Neighbors (KNN) — distance-based model with the Elbow Method used to find the optimal k
-- Support Vector Machine (SVM) — RBF kernel to handle non-linear boundaries between severity classes
+ix) Model Evaluation
 
-
-vii) Model Evaluation — Evaluate each model using Accuracy, Precision, Recall, F1 Score, ROC-AUC, Confusion Matrix and Classification Report. Recall is the priority metric — misclassifying a high-severity location as low-risk means aid may never reach it.
-
-viii) Model Comparison — Compare all three models side by side in a summary table and ROC curve plot to identify the best performing model.
+x) Model Comparison
 
 
 
-## 4. Tools
+## 5. Tools
 
 
 ### Python
@@ -59,41 +88,3 @@ viii) Model Comparison — Compare all three models side by side in a summary ta
 
 ### Imbalanced-learn
 - SMOTE — oversampling minority severity classes to address class imbalance
-
-
-
-## 5. Dataset
-
-**Source:** Nepal Earthquake Severity Index (NSET / Humanitarian Data Exchange)
-
-**Size:** 3,985 records, 12 columns
-
-**Coverage:** Village Development Committees (VDCs) across Nepal's 5 regions — Central, Eastern, Western, Mid-Western and Far-Western
-
-
-
-
-## 6. Columns
-i) P_CODE - Unique location identifier
-
-ii) VDC_NAME - Village Development Committee name
-
-iii) DISTRICT - District the VDC belongs to
-
-iv) REGION - One of Nepal's five geographic regions
-
-v) Hazard (Intensity) - Earthquake ground shaking intensity score
-
-vi) Exposure - Population and asset exposure score
-
-vii) Housing - Housing fragility score
-
-viii) Poverty - Poverty index score
-
-ix) Vulnerability - Combined vulnerability score
-
-x) Severity - Raw composite severity score
-
-xi) Severity Normalized - Severity scaled to 0–10
-
-xii) Severity category - Target variable > Lowest, Low, Medium-Low, Medium-High, High, Highest
